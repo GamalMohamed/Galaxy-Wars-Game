@@ -4,6 +4,7 @@
 Enviroment* env;
 Shader* shader;
 Model* Model1;
+Model* Model2;
 
 //Setup the Camera
 Camera camera(glm::vec3(0.0f, 0.0f, 20.0f));
@@ -36,6 +37,7 @@ GameWindow::GameWindow(bool running):running(running), height(screenHeight), wid
 
     shader=new Shader("ModelsVertexShader.glsl", "ModelsFragmentShader.glsl");
     Model1=new Model("models/nanosuit/nanosuit.obj");
+    Model2=new Model("models/nanosuit/nanosuit.obj");
 
     env = new Enviroment();
 
@@ -58,14 +60,22 @@ void GameWindow::DrawModels()
 
 	// Model transformaions
 	rotationAngle +=0.2f;
-	glm::mat4 model;
+	glm::mat4 model1;
 	//model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
-	model=glm::rotate(model,rotationAngle ,glm::vec3(0.0f,1.0f,0.0f));
-	model = glm::translate(model, glm::vec3(0.0f, -9.0f, 0.0f));
+	model1=glm::rotate(model1,rotationAngle ,glm::vec3(0.0f,1.0f,0.0f));
+	model1 = glm::translate(model1, glm::vec3(0.0f, -9.0f, 0.0f));
 
 	// Actually draw the loaded model
-	glUniformMatrix4fv(glGetUniformLocation(shader->getProgram(), "model"), 1, GL_FALSE, glm::value_ptr(model));
+	glUniformMatrix4fv(glGetUniformLocation(shader->getProgram(), "model"), 1, GL_FALSE, glm::value_ptr(model1));
 	Model1->Draw(*shader);
+
+
+	glm::mat4 model2;
+	model2=glm::rotate(model2,rotationAngle ,glm::vec3(1.0f,0.0f,0.0f));
+	model2 = glm::translate(model2, glm::vec3(-9.0f, -9.0f, 0.0f));
+
+	glUniformMatrix4fv(glGetUniformLocation(shader->getProgram(), "model"), 1, GL_FALSE, glm::value_ptr(model2));
+	Model2->Draw(*shader);
 }
 
 void GameWindow::Render()
