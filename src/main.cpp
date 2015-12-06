@@ -4,7 +4,7 @@
 
 GameWindow* gamewindow;
 
-// The MAIN function, from here we start our application and run our Game loop
+// The MAIN function, from here we start our application and run our Game loop !
 int main( void )
 {
     //Basic window setup
@@ -19,6 +19,7 @@ int main( void )
 	 glewInit();
 
     gamewindow=new GameWindow(true);
+
     //Game Starts !
     while(gamewindow->getRunning())
     {

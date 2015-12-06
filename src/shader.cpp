@@ -66,6 +66,9 @@ Shader::Shader(const GLchar* vertexPath, const GLchar* fragmentPath)
     this->Program = glCreateProgram();
     glAttachShader(this->Program, vertex);
     glAttachShader(this->Program, fragment);
+    glBindAttribLocation(this->Program,0,"position");
+    glBindAttribLocation(this->Program,1,"normal");
+    glBindAttribLocation(this->Program,2,"texCoords");
     glLinkProgram(this->Program);
     // Print linking errors if any
     glGetProgramiv(this->Program, GL_LINK_STATUS, &success);
@@ -82,14 +85,13 @@ Shader::Shader(const GLchar* vertexPath, const GLchar* fragmentPath)
 }
 
 
-
 void Shader::Use()
 {
     glUseProgram(this->Program);
 }
 
 
-GLuint Shader::getProgram(){
+GLuint Shader::getProgram()
+{
     return this->Program;
-
 }

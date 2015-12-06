@@ -30,11 +30,11 @@ void Mesh::Draw(Shader shader)
         number = ss.str();
         // Now set the sampler to the correct texture unit
         glUniform1i(glGetUniformLocation(shader.getProgram(), (name + number).c_str()), i);
-        // And finally bind the texture
+        // finally bind the texture
         glBindTexture(GL_TEXTURE_2D, this->textures[i].id);
     }
 
-    // Also set each mesh's shininess property to a default value (if you want you could extend this to another mesh property and possibly change this value)
+    // Also set each mesh's shininess property to a default value (It could have been extended to another mesh property, but I preferred this for simplicity now)
     glUniform1f(glGetUniformLocation(shader.getProgram(), "material.shininess"), 16.0f);
 
     // Draw mesh
@@ -42,7 +42,7 @@ void Mesh::Draw(Shader shader)
     glDrawElements(GL_TRIANGLES, this->indices.size(), GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
 
-    // Always good practice to set everything back to defaults once configured.
+    // Set everything back to defaults once configured !
     for (GLuint i = 0; i < this->textures.size(); i++)
     {
         glActiveTexture(GL_TEXTURE0 + i);
@@ -62,9 +62,12 @@ void Mesh::setupMesh()
     // Load data into vertex buffers
     glBindBuffer(GL_ARRAY_BUFFER, this->VBO);
 
-    // We know about structs is that their memory layout is sequential for all its items.
-    // The effect is that we can simply pass a pointer to the struct and it translates perfectly to a glm::vec3/2 array which
-    // again translates to 3/2 floats which translates to a byte array.
+    /* 	We know about structs is that their memory layout is sequential for all its items.
+     *	The effect is that we can simply pass a pointer to the struct
+     * 	and it translates perfectly to a glm::vec3/2 array which
+     * 	again translates to 3/2 floats which translates to a byte array.
+     */
+
     glBufferData(GL_ARRAY_BUFFER, this->vertices.size() * sizeof(Vertex3D), &this->vertices[0], GL_STATIC_DRAW);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->EBO);

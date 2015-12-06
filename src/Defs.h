@@ -27,8 +27,10 @@
 using namespace std;
 using namespace glm;
 
-const int screenWidth=1024;
-const int screenHeight=710;
+const int screenWidth = 1024;
+const int screenHeight = 710;
+const int numOfModels = 14;
+
 
 /*
 struct Vertex2D{

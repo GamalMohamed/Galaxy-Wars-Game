@@ -2,7 +2,6 @@
 #define ENVIROMENT_H
 
 #include"gamewindow.h"
-using namespace glm;
 
 
 class Enviroment

@@ -49,7 +49,7 @@ void Camera::ProcessMouseMovement(GLfloat xoffset, GLfloat yoffset, GLboolean co
 	this->Yaw   += xoffset;
 	this->Pitch += yoffset;
 
-	// Make sure that when pitch is out of bounds, screen doesn't get flipped
+	// Make sure that when pitch is out of bounds, screen doesn't get flipped !
 	if (constrainPitch)
 	{
 		if (this->Pitch > 89.0f)

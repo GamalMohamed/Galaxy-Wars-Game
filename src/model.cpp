@@ -20,12 +20,12 @@ void Model::loadModel(string path)
     Assimp::Importer importer;
     const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
     // Check for errors
-    if(!scene || scene->mFlags == AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) // if is Not Zero
+    if(!scene || scene->mFlags == AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) // if is Not Zero !
     {
         cout << "ERROR::ASSIMP:: " << importer.GetErrorString() << endl;
         return;
     }
-    // Retrieve the directory path of the filepath
+    // Retrieve the directory path of the file path
     this->directory = path.substr(0, path.find_last_of('/'));
 
     // Process ASSIMP's root node recursively
@@ -74,10 +74,12 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
         vertex.Position = vector;
 
         // Normals
+        if(&mesh->mNormals[0]){
         vector.x = mesh->mNormals[i].x;
         vector.y = mesh->mNormals[i].y;
         vector.z = mesh->mNormals[i].z;
         vertex.Normal = vector;
+        }
 
         // Texture Coordinates
         if(mesh->mTextureCoords[0]) // Does the mesh contain texture coordinates?
@@ -107,12 +109,14 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
     if(mesh->mMaterialIndex >= 0)
     {
         aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-        // We assume a convention for sampler names in the shaders. Each diffuse texture should be named
-        // as 'texture_diffuseN' where N is a sequential number ranging from 1 to MAX_SAMPLER_NUMBER.
-        // Same applies to other texture as the following list summarizes:
-        // Diffuse: texture_diffuseN
-        // Specular: texture_specularN
-        // Normal: texture_normalN
+
+        /* We assume a convention for sampler names in the shaders. Each diffuse texture should be named
+         * as 'texture_diffuseN' where N is a sequential number ranging from 1 to MAX_SAMPLER_NUMBER.
+         * Same applies to other texture as the following list summarizes:
+         * Diffuse: texture_diffuseN
+         * Specular: texture_specularN
+         * Normal: texture_normalN
+         */
 
         // 1. Diffuse maps
         vector<Texture> diffuseMaps = this->loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
@@ -140,12 +144,12 @@ vector<Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type,
             if(textures_loaded[j].path == str)
             {
                 textures.push_back(textures_loaded[j]);
-                skip = true; // A texture with the same filepath has already been loaded, continue to next one. (optimization)
+                skip = true; // A texture with the same file path has already been loaded, continue to next one. (optimization)
                 break;
             }
         }
         if(!skip)
-        {   // If texture hasn't been loaded already, load it
+        {   // If texture hasn't been loaded already, load it !
             Texture texture;
             texture.id = TextureFromFile(str.C_Str(), this->directory);
             texture.type = typeName;
@@ -160,7 +164,7 @@ vector<Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type,
 
 GLint TextureFromFile(const char* path, string directory)
 {
-     //Generate texture ID and load texture data
+    //Generate texture ID and load texture data
     string filename = string(path);
     filename = directory + '/' + filename;
     GLuint textureID;
@@ -169,7 +173,7 @@ GLint TextureFromFile(const char* path, string directory)
     unsigned char* image = SOIL_load_image(filename.c_str(), &width, &height, 0, SOIL_LOAD_RGBA);
     // Assign texture to ID
     glBindTexture(GL_TEXTURE_2D, textureID);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
     glGenerateMipmap(GL_TEXTURE_2D);
 
     // Parameters
