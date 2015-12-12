@@ -15,6 +15,7 @@
 #include <GL/glfw.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/constants.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/transform.hpp>
 #include <glm/gtx/euler_angles.hpp>
@@ -23,13 +24,12 @@
 #include "assimp/Importer.hpp"
 #include "assimp/scene.h"
 #include "assimp/postprocess.h"
-#include "shader.h"
-using namespace std;
-using namespace glm;
+
 
 const int screenWidth = 1024;
 const int screenHeight = 710;
 const int numOfModels = 14;
+const float PI= 3.141;
 
 
 /*
