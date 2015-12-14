@@ -1,17 +1,21 @@
-/*
- * MovementSystem.h
- *
- *  Created on: Dec 10, 2015
- *      Author: jimmy
- */
-
 #ifndef MOVEMENTSYSTEM_H_
 #define MOVEMENTSYSTEM_H_
 
-class MovementSystem {
+#include"GameManager.h"
+class Scene;
+
+class MovementSystem
+{
+	float HorizontalMotion; //X-axis displacement
+	float VerticalMotion;	//Y-axis displacement
+
 public:
 	MovementSystem();
 	~MovementSystem();
+
+	void ModelTransformations(Scene*);
+
+	float getVerticalMotion();
 };
 
 #endif /* MOVEMENTSYSTEM_H_ */

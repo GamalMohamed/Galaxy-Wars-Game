@@ -27,10 +27,10 @@ ResourcesSystem::ResourcesSystem()
 
 	models[13]=new Model("Game Resources/Models/Others/Moon/moon.obj");
 */
-	/*
-	models[5]=new Model("Game Resources/Models/SpaceShips/starcruiser military/Starcruiser military.obj");
+
+	//models[5]=new Model("Game Resources/Models/SpaceShips/starcruiser military/Starcruiser military.obj");
 	models[6]=new Model("Game Resources/Models/SpaceShips/Wraith Raider Starship/Wraith Raider Starship.obj");
-	models[4]=new Model("Game Resources/Models/SpaceShips/SpaceTrident/SpaceTrident.obj");
+	/*models[4]=new Model("Game Resources/Models/SpaceShips/SpaceTrident/SpaceTrident.obj");
 
 	models[9]=new Model("Game Resources/Models/UFOs/ufo/UFO.obj");
 

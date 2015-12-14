@@ -130,6 +130,14 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
     return Mesh(vertices, indices, textures);
 }
 
+glm::mat4& Model::getModelTransformations(){
+	return modelTransformations;
+}
+
+void Model::setModelTransformations(const glm::mat4& modelTransformations) {
+	this->modelTransformations = modelTransformations;
+}
+
 vector<Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type, string typeName)
 {
     vector<Texture> textures;

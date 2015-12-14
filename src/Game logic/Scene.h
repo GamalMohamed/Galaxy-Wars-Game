@@ -1,10 +1,10 @@
 #ifndef SCENE_H_
 #define SCENE_H_
 
-#include"../Defs.h"
+#include "../Defs.h"
 #include "Player.h"
-#include"Enemy.h"
-#include"../Game engine/GameManager.h"
+#include "Enemy.h"
+#include "../Game engine/GameManager.h"
 
 class Scene
 {
@@ -28,7 +28,8 @@ public:
 	void setSceneCamera(Camera*);
 	ResourcesSystem* getSceneResources();
 	void setSceneResources(ResourcesSystem*);
-
+	Player* getPlayer();
+	void setPlayer(Player* player);
 };
 
 #endif /* SCENE_H_ */

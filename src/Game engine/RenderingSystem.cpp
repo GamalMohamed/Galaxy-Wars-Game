@@ -51,7 +51,7 @@ void RenderingSystem::DrawBackground(Scene* scene,int factor)
 	scene->SceneResources->models[0]->Draw(*scene->SceneResources->shader);
 }
 
-static int u=5;
+static int repeat=5;
 void RenderingSystem::DrawModels(Scene* scene)
 {
 
@@ -59,13 +59,19 @@ void RenderingSystem::DrawModels(Scene* scene)
 
 	this->setTransformationMatrices(scene);
 
-	for (int i = 0; i < u; i++) {
+	for (int i = 0; i < repeat; i++) {
 		this->DrawBackground(scene,i);
 	}
-
-	u++;
+	repeat++;
 
 	//this->DrawBackground(scene,0);
+
+
+	//Render Player !
+	glUniformMatrix4fv(glGetUniformLocation(scene->SceneResources->shader->getProgram(), "model"), 1, GL_FALSE, glm::value_ptr(scene->player->getModel()->getModelTransformations()));
+	if(glfwGetKey( GLFW_KEY_SPACE ) != GLFW_PRESS){
+		scene->player->getModel()->Draw(*scene->SceneResources->shader);
+	}
 
 	/* Other models
 	//Asteroid
@@ -98,14 +104,6 @@ void RenderingSystem::DrawModels(Scene* scene)
 	glUniformMatrix4fv(glGetUniformLocation(scene->SceneResources->shader->getProgram(), "model"), 1, GL_FALSE, glm::value_ptr(model3));
 	scene->SceneResources->models[12]->Draw(*scene->SceneResources->shader);
 
-	//Wrath raider
-	glm::mat4 model6;
-	model6 = glm::scale(model6, glm::vec3(0.05f,0.05f, 0.05f));
-	model6=glm::rotate(model6,-90.0f, glm::vec3(1.0f,0.0f,0.0f));
-	model6 = glm::translate(model6, glm::vec3(0.0f,800.0f,0.0f));
-	glUniformMatrix4fv(glGetUniformLocation(scene->SceneResources->shader->getProgram(), "model"), 1, GL_FALSE, glm::value_ptr(model6));
-	scene->SceneResources->models[6]->Draw(*scene->SceneResources->shader);
-
 	//Starcruiser military
 	glm::mat4 model7;
 	model7 = glm::scale(model7, glm::vec3(0.05f,0.05f, 0.05f));
@@ -122,6 +120,7 @@ void RenderingSystem::DrawModels(Scene* scene)
 	glUniformMatrix4fv(glGetUniformLocation(scene->SceneResources->shader->getProgram(), "model"), 1, GL_FALSE, glm::value_ptr(model8));
 	scene->SceneResources->models[4]->Draw(*scene->SceneResources->shader);
 	*/
+
 }
 
 

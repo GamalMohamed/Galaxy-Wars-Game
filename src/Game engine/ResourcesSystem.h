@@ -9,6 +9,7 @@ class ResourcesSystem
 {
 	friend class Scene;
 	friend class RenderingSystem;
+	friend class MovementSystem;
 	Model** models;
 	Shader* shader;
 
