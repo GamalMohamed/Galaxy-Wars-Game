@@ -12,7 +12,7 @@ protected:
 	Model* model;
 	bool Active;
 	float velocity;
-	//hitbox property ?!
+
 
 public:
 	Entity();

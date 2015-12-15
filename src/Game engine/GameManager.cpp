@@ -48,7 +48,7 @@ void GameManager::runGameLoop()
 
 		this->movementSystem->ModelTransformations(this->scene);
 
-		this->cameraSystem->updatePositionY(1.5f);
+		this->cameraSystem->updatePositionY(0.2f);
 
 
 		this->renderSystem->Render(this->scene);

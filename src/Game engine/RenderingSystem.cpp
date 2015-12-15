@@ -52,6 +52,7 @@ void RenderingSystem::DrawBackground(Scene* scene,int factor)
 }
 
 static int repeat=5;
+static bool appear=false;
 void RenderingSystem::DrawModels(Scene* scene)
 {
 
@@ -73,29 +74,23 @@ void RenderingSystem::DrawModels(Scene* scene)
 		scene->player->getModel()->Draw(*scene->SceneResources->shader);
 	}
 
-	/* Other models
-	//Asteroid
-	glm::mat4 model2;
-	model2 = glm::scale(model2, glm::vec3(0.5f,0.5f, 0.5f));
-	model2=glm::rotate(model2,-200.0f, glm::vec3(1.0f,0.0f,0.0f));
-	model2 = glm::translate(model2, glm::vec3(-18.0f,16.0f,0.0f));
-	glUniformMatrix4fv(glGetUniformLocation(scene->SceneResources->shader->getProgram(), "model"), 1, GL_FALSE, glm::value_ptr(model2));
-	scene->SceneResources->models[10]->Draw(*scene->SceneResources->shader);
+	//UFO
+	glUniformMatrix4fv(glGetUniformLocation(scene->SceneResources->shader->getProgram(), "model"), 1, GL_FALSE, glm::value_ptr(scene->getSceneResources()->models[9]->getModelTransformations()));
+	scene->Enemies[0]->getModel()->Draw(*scene->SceneResources->shader);
 
+
+	//Asteroid
+	glUniformMatrix4fv(glGetUniformLocation(scene->SceneResources->shader->getProgram(), "model"), 1, GL_FALSE, glm::value_ptr(scene->getSceneResources()->models[10]->getModelTransformations()));
+	scene->Enemies[1]->getModel()->Draw(*scene->SceneResources->shader);
+
+
+	/* Other models
 	//Missile
 	glm::mat4 model4;
 	model4 = glm::scale(model4, glm::vec3(0.5f,0.5f, 0.5f));
 	model4=glm::rotate(model4,300.0f, glm::vec3(0.0f,0.0f,1.0f));
 	glUniformMatrix4fv(glGetUniformLocation(scene->SceneResources->shader->getProgram(), "model"), 1, GL_FALSE, glm::value_ptr(model4));
 	scene->SceneResources->models[11]->Draw(*scene->SceneResources->shader);
-
-	//UFO
-	glm::mat4 model5;
-	model5 = glm::scale(model5, glm::vec3(0.15f,0.15f, 0.15f));
-	model5=glm::rotate(model5,300.0f, glm::vec3(1.0f,0.0f,0.0f));
-	model5 = glm::translate(model5, glm::vec3(-90.0f,70.0f,0.0f));
-	glUniformMatrix4fv(glGetUniformLocation(scene->SceneResources->shader->getProgram(), "model"), 1, GL_FALSE, glm::value_ptr(model5));
-	scene->SceneResources->models[9]->Draw(*scene->SceneResources->shader);
 
 	//Rock
 	glm::mat4 model3;

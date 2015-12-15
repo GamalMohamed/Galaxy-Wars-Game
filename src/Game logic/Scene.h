@@ -9,12 +9,13 @@
 class Scene
 {
 	friend class RenderingSystem;
+	friend class MovementSystem;
 private:
 	Camera* SceneCamera;
 	ResourcesSystem* SceneResources;
 
 	Player* player;
-	std::vector<Enemy*> Enemies;
+	Enemy** Enemies;
 
 
 public:
@@ -26,10 +27,14 @@ public:
 
 	Camera* getSceneCamera();
 	void setSceneCamera(Camera*);
+
 	ResourcesSystem* getSceneResources();
 	void setSceneResources(ResourcesSystem*);
+
 	Player* getPlayer();
 	void setPlayer(Player* player);
+
+
 };
 
 #endif /* SCENE_H_ */
