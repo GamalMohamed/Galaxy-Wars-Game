@@ -1,10 +1,3 @@
-/*
- * RenderingSystem.cpp
- *
- *  Created on: Dec 10, 2015
- *      Author: jimmy
- */
-
 #include "RenderingSystem.h"
 
 
@@ -48,11 +41,10 @@ void RenderingSystem::DrawBackground(Scene* scene,int factor)
 	model0=glm::rotate(model0, PI/2.f,glm::vec3(1.0f,0.0f,0.0f)); //Remember that angle better to be in RADIANS !!
 	model0 = glm::translate(model0, glm::vec3(0.0f, -33.0f, -factor*45.7f)); // Remember that axes are also rotated !!
 	glUniformMatrix4fv(glGetUniformLocation(scene->SceneResources->shader->getProgram(), "model"), 1, GL_FALSE, glm::value_ptr(model0));
-	scene->SceneResources->models[0]->Draw(*scene->SceneResources->shader);
+	scene->Background->Draw(*scene->SceneResources->shader);
 }
 
 static int repeat=5;
-static bool appear=false;
 void RenderingSystem::DrawModels(Scene* scene)
 {
 
@@ -60,61 +52,23 @@ void RenderingSystem::DrawModels(Scene* scene)
 
 	this->setTransformationMatrices(scene);
 
+	//Continuously draw background
 	for (int i = 0; i < repeat; i++) {
 		this->DrawBackground(scene,i);
 	}
 	repeat++;
 
-	//this->DrawBackground(scene,0);
 
-
-	//Render Player !
+	//Render Player
 	glUniformMatrix4fv(glGetUniformLocation(scene->SceneResources->shader->getProgram(), "model"), 1, GL_FALSE, glm::value_ptr(scene->player->getModel()->getModelTransformations()));
-	if(glfwGetKey( GLFW_KEY_SPACE ) != GLFW_PRESS){
-		scene->player->getModel()->Draw(*scene->SceneResources->shader);
+	scene->player->getModel()->Draw(*scene->SceneResources->shader);
+
+	//Render Enemies
+	for(int i=0;i<scene->getEnemiesNo();i++)
+	{
+		glUniformMatrix4fv(glGetUniformLocation(scene->SceneResources->shader->getProgram(), "model"), 1, GL_FALSE, glm::value_ptr(scene->Enemies[i]->getModel()->getModelTransformations()));
+		scene->Enemies[i]->getModel()->Draw(*scene->SceneResources->shader);
 	}
-
-	//UFO
-	glUniformMatrix4fv(glGetUniformLocation(scene->SceneResources->shader->getProgram(), "model"), 1, GL_FALSE, glm::value_ptr(scene->getSceneResources()->models[9]->getModelTransformations()));
-	scene->Enemies[0]->getModel()->Draw(*scene->SceneResources->shader);
-
-
-	//Asteroid
-	glUniformMatrix4fv(glGetUniformLocation(scene->SceneResources->shader->getProgram(), "model"), 1, GL_FALSE, glm::value_ptr(scene->getSceneResources()->models[10]->getModelTransformations()));
-	scene->Enemies[1]->getModel()->Draw(*scene->SceneResources->shader);
-
-
-	/* Other models
-	//Missile
-	glm::mat4 model4;
-	model4 = glm::scale(model4, glm::vec3(0.5f,0.5f, 0.5f));
-	model4=glm::rotate(model4,300.0f, glm::vec3(0.0f,0.0f,1.0f));
-	glUniformMatrix4fv(glGetUniformLocation(scene->SceneResources->shader->getProgram(), "model"), 1, GL_FALSE, glm::value_ptr(model4));
-	scene->SceneResources->models[11]->Draw(*scene->SceneResources->shader);
-
-	//Rock
-	glm::mat4 model3;
-	model3 = glm::scale(model3, glm::vec3(0.4f,0.4f, 0.4f));
-	model3 = glm::translate(model3, glm::vec3(25.0f,20.0f,0.0f));
-	glUniformMatrix4fv(glGetUniformLocation(scene->SceneResources->shader->getProgram(), "model"), 1, GL_FALSE, glm::value_ptr(model3));
-	scene->SceneResources->models[12]->Draw(*scene->SceneResources->shader);
-
-	//Starcruiser military
-	glm::mat4 model7;
-	model7 = glm::scale(model7, glm::vec3(0.05f,0.05f, 0.05f));
-	model7=glm::rotate(model7,90.0f, glm::vec3(1.0f,0.0f,0.0f));
-	model7 = glm::translate(model7, glm::vec3(0.0f,-1500.0f,0.0f));
-	glUniformMatrix4fv(glGetUniformLocation(scene->SceneResources->shader->getProgram(), "model"), 1, GL_FALSE, glm::value_ptr(model7));
-	scene->SceneResources->models[5]->Draw(*scene->SceneResources->shader);
-
-	//SpaceTrident
-	glm::mat4 model8;
-	model8 = glm::scale(model8, glm::vec3(1.25f,1.25f, 1.25f));
-	model8=glm::rotate(model8,90.0f, glm::vec3(1.0f,0.0f,0.0f));
-	model8 = glm::translate(model8, glm::vec3(11.0f,-3.0f,0.0f));
-	glUniformMatrix4fv(glGetUniformLocation(scene->SceneResources->shader->getProgram(), "model"), 1, GL_FALSE, glm::value_ptr(model8));
-	scene->SceneResources->models[4]->Draw(*scene->SceneResources->shader);
-	*/
 
 }
 

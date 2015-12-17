@@ -6,8 +6,6 @@ class Scene;
 
 class MovementSystem
 {
-	float HorizontalMotion; //X-axis displacement
-	float VerticalMotion;	//Y-axis displacement
 
 public:
 	MovementSystem();
@@ -15,7 +13,9 @@ public:
 
 	void ModelTransformations(Scene*);
 
-	float getVerticalMotion();
+	void PlayerTransformations(Scene*);
+	void MovePlayer(float&,float&);
+
 };
 
 #endif /* MOVEMENTSYSTEM_H_ */

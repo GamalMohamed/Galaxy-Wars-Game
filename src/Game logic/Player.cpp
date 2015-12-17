@@ -1,10 +1,3 @@
-/*
- * Player.cpp
- *
- *  Created on: Dec 10, 2015
- *      Author: jimmy
- */
-
 #include "Player.h"
 
 Player::Player()
@@ -12,7 +5,12 @@ Player::Player()
 	this->Active=true;
 	this->lifepoints=1000;
 	this->score=0;
-	//this->weapons={'Missile','laser','Bullet'};
+
+	this->HorizontalMotion=0.f;
+	this->VerticalMotion=850.f;
+
+	this->InitialPosition= -200.f;
+	this->velocity=20.0f; //WrathSpeed=CamSpeed*100.f
 
 
 }

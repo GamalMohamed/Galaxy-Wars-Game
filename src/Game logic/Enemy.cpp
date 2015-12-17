@@ -1,10 +1,3 @@
-/*
- * Enemy.cpp
- *
- *  Created on: Dec 10, 2015
- *      Author: jimmy
- */
-
 #include "Enemy.h"
 
 Enemy::Enemy()

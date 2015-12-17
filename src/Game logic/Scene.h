@@ -15,7 +15,10 @@ private:
 	ResourcesSystem* SceneResources;
 
 	Player* player;
+	Model* Background;
 	Enemy** Enemies;
+
+	int EnemiesNo; //no. of enemies in current level
 
 
 public:
@@ -34,6 +37,8 @@ public:
 	Player* getPlayer();
 	void setPlayer(Player* player);
 
+	int getEnemiesNo();
+	void setEnemiesNo(int enemiesNo);
 
 };
 

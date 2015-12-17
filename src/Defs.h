@@ -28,7 +28,7 @@
 
 const int screenWidth = 1024;
 const int screenHeight = 710;
-const int numOfModels = 14;
+const int numOfModels = 100;
 const float PI= 3.141f;
 
 //btRigidBody* ptr=NULL;

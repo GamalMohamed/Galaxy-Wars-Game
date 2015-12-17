@@ -11,7 +11,11 @@ protected:
 	glm::vec3 position;
 	Model* model;
 	bool Active;
+
 	float velocity;
+	float HorizontalMotion; //X-axis displacement
+	float VerticalMotion;	//Z-axis displacement
+	float InitialPosition; //Initial Z-coordinate of model
 
 
 public:
@@ -21,28 +25,29 @@ public:
 	virtual void Attack()=0;
 
 	bool IsActive() const;
-
-
 	void setActive(bool);
 
 
 	Model*& getModel();
-
-
 	void setModel(Model*& );
 
 
 	const glm::vec3& getPosition() const;
-
-
 	void setPosition(const glm::vec3&);
 
 
 	float getVelocity() const;
-
-
 	void setVelocity(float);
 
+
+	float& getHorizontalMotion();
+	void setHorizontalMotion(float horizontalMotion);
+
+	float& getVerticalMotion();
+	void setVerticalMotion(float verticalMotion);
+
+	float& getInitialPosition();
+	void setInitialPosition(float initialPosition);
 
 };
 

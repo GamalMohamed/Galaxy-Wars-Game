@@ -3,8 +3,7 @@
 
 MovementSystem::MovementSystem()
 {
-	this->HorizontalMotion=0.f;
-	this->VerticalMotion=850.f;
+
 }
 
 MovementSystem::~MovementSystem()
@@ -12,51 +11,98 @@ MovementSystem::~MovementSystem()
 
 }
 
-float MovementSystem::getVerticalMotion(){
-	return VerticalMotion;
-}
-
-
-static float WrathInitialZ= -200.f; //WrathSpeed=CamSpeed*100.f
-static float UFOInitialZ= 300.0f; //UFOSpeed=CamSpeed*500.f
-static float AsteroidInitialZ= -50.0f; //AsteroidSpeed=CamSpeed*100.f
-void MovementSystem::ModelTransformations(Scene* scene)
+void MovementSystem::PlayerTransformations(Scene* scene)
 {
-	//Player transformations
 	glm::mat4 PlayerModel;
 	PlayerModel = glm::scale(PlayerModel, glm::vec3(0.01f,0.01f, 0.01f));
 	PlayerModel = glm::rotate(PlayerModel,-PI/2.0f, glm::vec3(1.0f,0.0f,0.0f));
-	PlayerModel = glm::translate(PlayerModel, glm::vec3(HorizontalMotion,VerticalMotion,WrathInitialZ+=20.f));
+	PlayerModel = glm::translate(PlayerModel, glm::vec3(scene->getPlayer()->getHorizontalMotion(), scene->getPlayer()->getVerticalMotion(), scene->getPlayer()->getInitialPosition()+=scene->getPlayer()->getVelocity()));
 	scene->getPlayer()->getModel()->setModelTransformations(PlayerModel);
 
+	MovePlayer(scene->getPlayer()->getHorizontalMotion(),scene->getPlayer()->getVerticalMotion());
+
+}
+
+void MovementSystem::MovePlayer(float &horizontal, float &vertical)
+{
 	if(glfwGetKey( GLFW_KEY_RIGHT ) == GLFW_PRESS){
-		this->HorizontalMotion+=7.5f;
+		horizontal+=7.5f;
 	}
 
 	if(glfwGetKey( GLFW_KEY_LEFT ) == GLFW_PRESS){
-		this->HorizontalMotion-=7.5f;
+		horizontal-=7.5f;
 	}
 
 	if(glfwGetKey( GLFW_KEY_UP ) == GLFW_PRESS){
-		this->VerticalMotion+=7.5f;
+		vertical+=7.5f;
 	}
 
 	if(glfwGetKey( GLFW_KEY_DOWN) == GLFW_PRESS){
-		this->VerticalMotion-=7.5f;
+		vertical-=7.5f;
+	}
+}
+
+
+static float Asteroids[6]={-50.f,-75.f,-100.f,-125.f,-150.f}; //AsteroidSpeed=CamSpeed*100.f
+static float UFOs[6]={400.f,550.f,700.f,850.f,1000.f}; //UFOSpeed=CamSpeed*500.f
+
+void MovementSystem::ModelTransformations(Scene* scene)
+{
+	PlayerTransformations(scene);
+
+	/*srand(time(0));
+	int r = rand() % (200-190)+190;*/
+
+	for (int i = 0; i <=4; i++)
+	{
+		glm::mat4 AsteroidModel;
+		AsteroidModel = glm::scale(AsteroidModel, glm::vec3(0.01f,0.01f, 0.01f));
+		AsteroidModel=glm::rotate(AsteroidModel,PI/2.f, glm::vec3(1.0f,0.0f,0.0f));
+		AsteroidModel = glm::translate(AsteroidModel, glm::vec3(10.0f,-20.0f,Asteroids[i]-=19.8f));
+		scene->Enemies[i]->getModel()->setModelTransformations(AsteroidModel);
 	}
 
 
-	glm::mat4 UFOModel;
-	UFOModel = glm::scale(UFOModel, glm::vec3(0.002f,0.002f, 0.002f));
-	UFOModel=glm::rotate(UFOModel,-PI/2.f, glm::vec3(1.0f,0.0f,0.0f));
-	UFOModel = glm::translate(UFOModel, glm::vec3(-55.0f,150.0f,UFOInitialZ+=99.5f));
-	scene->Enemies[0]->getModel()->setModelTransformations(UFOModel);
+	for (int i = 5; i <= 9; i++)
+	{
+		glm::mat4 UFOModel;
+		UFOModel = glm::scale(UFOModel, glm::vec3(0.002f,0.002f, 0.002f));
+		UFOModel=glm::rotate(UFOModel,-PI/2.f, glm::vec3(1.0f,0.0f,0.0f));
+		UFOModel = glm::translate(UFOModel, glm::vec3(-55.0f,150.0f,UFOs[i-5]+=99.0f));
+		scene->Enemies[i]->getModel()->setModelTransformations(UFOModel);
+	}
 
 
-	glm::mat4 AsteroidModel;
-	AsteroidModel = glm::scale(AsteroidModel, glm::vec3(0.01f,0.01f, 0.01f));
-	AsteroidModel=glm::rotate(AsteroidModel,PI/2.f, glm::vec3(1.0f,0.0f,0.0f));
-	AsteroidModel = glm::translate(AsteroidModel, glm::vec3(10.0f,-20.0f,AsteroidInitialZ-=19.8f));
-	scene->Enemies[1]->getModel()->setModelTransformations(AsteroidModel);
+	/* Other models
+		//Missile
+		glm::mat4 model4;
+		model4 = glm::scale(model4, glm::vec3(0.5f,0.5f, 0.5f));
+		model4=glm::rotate(model4,300.0f, glm::vec3(0.0f,0.0f,1.0f));
+		glUniformMatrix4fv(glGetUniformLocation(scene->SceneResources->shader->getProgram(), "model"), 1, GL_FALSE, glm::value_ptr(model4));
+		scene->SceneResources->models[11]->Draw(*scene->SceneResources->shader);
+
+		//Rock
+		glm::mat4 model3;
+		model3 = glm::scale(model3, glm::vec3(0.4f,0.4f, 0.4f));
+		model3 = glm::translate(model3, glm::vec3(25.0f,20.0f,0.0f));
+		glUniformMatrix4fv(glGetUniformLocation(scene->SceneResources->shader->getProgram(), "model"), 1, GL_FALSE, glm::value_ptr(model3));
+		scene->SceneResources->models[12]->Draw(*scene->SceneResources->shader);
+
+		//Starcruiser military
+		glm::mat4 model7;
+		model7 = glm::scale(model7, glm::vec3(0.05f,0.05f, 0.05f));
+		model7=glm::rotate(model7,90.0f, glm::vec3(1.0f,0.0f,0.0f));
+		model7 = glm::translate(model7, glm::vec3(0.0f,-1500.0f,0.0f));
+		glUniformMatrix4fv(glGetUniformLocation(scene->SceneResources->shader->getProgram(), "model"), 1, GL_FALSE, glm::value_ptr(model7));
+		scene->SceneResources->models[5]->Draw(*scene->SceneResources->shader);
+
+		//SpaceTrident
+		glm::mat4 model8;
+		model8 = glm::scale(model8, glm::vec3(1.25f,1.25f, 1.25f));
+		model8=glm::rotate(model8,90.0f, glm::vec3(1.0f,0.0f,0.0f));
+		model8 = glm::translate(model8, glm::vec3(11.0f,-3.0f,0.0f));
+		glUniformMatrix4fv(glGetUniformLocation(scene->SceneResources->shader->getProgram(), "model"), 1, GL_FALSE, glm::value_ptr(model8));
+		scene->SceneResources->models[4]->Draw(*scene->SceneResources->shader);
+		*/
 
 }

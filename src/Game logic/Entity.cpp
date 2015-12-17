@@ -2,7 +2,7 @@
 
 Entity::Entity()
 {
-	this->velocity=10.0f;
+
 }
 
 Entity::~Entity()
@@ -48,4 +48,29 @@ float Entity::getVelocity() const
 void Entity::setVelocity(float velocity)
 {
 	this->velocity = velocity;
+}
+
+
+float& Entity::getHorizontalMotion(){
+	return HorizontalMotion;
+}
+
+void Entity::setHorizontalMotion(float horizontalMotion) {
+	HorizontalMotion = horizontalMotion;
+}
+
+float& Entity::getVerticalMotion(){
+	return VerticalMotion;
+}
+
+void Entity::setVerticalMotion(float verticalMotion) {
+	VerticalMotion = verticalMotion;
+}
+
+float& Entity::getInitialPosition(){
+	return InitialPosition;
+}
+
+void Entity::setInitialPosition(float initialPosition) {
+	InitialPosition = initialPosition;
 }

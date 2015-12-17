@@ -1,10 +1,3 @@
-/*
- * Player.h
- *
- *  Created on: Dec 10, 2015
- *      Author: jimmy
- */
-
 #ifndef PLAYER_H_
 #define PLAYER_H_
 
@@ -12,9 +5,11 @@
 
 class Player: public Entity
 {
+private:
 	int score;
 	int lifepoints;
 	string weapons[3];
+
 
 public:
 	Player();
@@ -22,11 +17,15 @@ public:
 
 	void Attack();
 
+	string* getWeapons();
+
 	int getLifepoints() const;
 	void setLifepoints(int lifepoints);
+
 	int getScore() const;
 	void setScore(int score);
-	string* getWeapons();
+
+
 };
 
 #endif /* PLAYER_H_ */
