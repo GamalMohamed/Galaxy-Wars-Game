@@ -10,7 +10,7 @@ class Enemy: public Entity
 
 
 public:
-	Enemy();
+	Enemy(string);
 	~Enemy();
 
 	void Attack();

@@ -1,5 +1,8 @@
 #include "Scene.h"
 
+
+/*static float Asteroids[6]={-50.f,-75.f,-100.f,-125.f,-150.f};
+static float UFOs[6]={400.f,550.f,700.f,850.f,1000.f};*/
 Scene::Scene()
 {
 	this->player=new Player();
@@ -7,13 +10,24 @@ Scene::Scene()
 	EnemiesNo=10;
 	this->Enemies=new Enemy*[EnemiesNo];
 
-	for(int i=0;i<10;i++){
-		this->Enemies[i]=new Enemy();
+	float Initials[2]={-50.f,400.f};
+	float Displacements[2]={-25.f,150.f};
+	for(int i=0;i<EnemiesNo;i++)
+	{
+		if(i<5)
+		{
+			this->Enemies[i]=new Enemy("Asteroid");
+			this->Enemies[i]->setInitialPosition(Initials[0]);
+			Initials[0]+= Displacements[0];
+		}
+		else
+		{
+			this->Enemies[i]=new Enemy("UFO");
+			this->Enemies[i]->setInitialPosition(Initials[1]);
+			Initials[1]+= Displacements[1];
+		}
+
 	}
-
-
-
-
 }
 
 Scene::~Scene()
@@ -40,22 +54,15 @@ void Scene::setSceneResources(ResourcesSystem* sceneModels)
 	this->player->setModel(this->SceneResources->models[1]);
 	this->Background=this->SceneResources->models[0];
 
-	//float trackers[2]={-50.f,400.f};
 	for(int i=0; i<EnemiesNo; i++)
 	{
 		if(i<5)
 		{
 			this->Enemies[i]->setModel(this->SceneResources->models[i+2]);
-			this->Enemies[i]->setType("Asteroid");
-			//this->Enemies[i]->setInitialPosition(trackers[0]-=25.f);
-
 		}
 		else
 		{
 			this->Enemies[i]->setModel(this->SceneResources->models[i+2]);
-			this->Enemies[i]->setType("UFO");
-			//this->Enemies[i]->setInitialPosition(trackers[1]+=150.f);
-
 		}
 
 	}
@@ -65,7 +72,6 @@ void Scene::setSceneResources(ResourcesSystem* sceneModels)
 Player* Scene::getPlayer(){
 	return player;
 }
-
 
 void Scene::setPlayer(Player* player) {
 	this->player = player;

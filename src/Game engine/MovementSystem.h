@@ -6,6 +6,10 @@ class Scene;
 
 class MovementSystem
 {
+private:
+	void PlayerTransformations(Scene*);
+	void MovePlayer(float&,float&);
+	void EnemiesTransformations(Scene*);
 
 public:
 	MovementSystem();
@@ -13,8 +17,7 @@ public:
 
 	void ModelTransformations(Scene*);
 
-	void PlayerTransformations(Scene*);
-	void MovePlayer(float&,float&);
+
 
 };
 
