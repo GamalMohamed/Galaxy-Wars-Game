@@ -1,3 +1,3 @@
-Galaxy Wars Game !
+#Galaxy Wars Game 
 
-My Computer Graphics course project 
+A 3D space war compueter game developed using opengl.. 
