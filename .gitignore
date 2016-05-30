@@ -1,8 +1,8 @@
-*.obj
-*.mtl
-*.jpg
-*.jpeg
-*.png
+Game Resources/Models/*.obj
+Game Resources/Models*.mtl
+Game Resources/Models*.jpg
+Game Resources/Models*.jpeg
+Game Resources/Models*.png
 *.exe
 *.cproject
 *.project
