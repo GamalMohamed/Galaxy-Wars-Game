@@ -67,10 +67,10 @@ void Entity::setVerticalMotion(float verticalMotion) {
 	VerticalMotion = verticalMotion;
 }
 
-float& Entity::getInitialPosition(){
-	return InitialPosition;
+float& Entity::getInitialYPosition(){
+	return InitialYPosition;
 }
 
-void Entity::setInitialPosition(float initialPosition) {
-	InitialPosition = initialPosition;
+void Entity::setInitialYPosition(float initialPosition) {
+	InitialYPosition = initialPosition;
 }

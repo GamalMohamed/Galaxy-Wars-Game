@@ -1,29 +1,27 @@
-/*
- * ResourcesSystem.cpp
- *
- *  Created on: Dec 10, 2015
- *      Author: jimmy
- */
-
 #include "ResourcesSystem.h"
+#include "PhysicsSystem.h"
 
-ResourcesSystem::ResourcesSystem()
+ResourcesSystem::ResourcesSystem(PhysicsSystem* physicsSystem)
 {
-	this->shader=new Shader("Game Resources/Shaders/ModelsVertexShader.glsl", "Game Resources/Shaders/ModelsFragmentShader.glsl");
+	this->ModelShader=new Shader("Game Resources/Shaders/ModelsVertexShader.glsl", "Game Resources/Shaders/ModelsFragmentShader.glsl");
+	this->lightingShader=new Shader("Game Resources/Shaders/LightVertexShader.glsl", "Game Resources/Shaders/LightFragmentShader.glsl");
 
 	models=new Model*[numOfModels];
 
 
 	models[0]=new Model("Game Resources/Models/Others/Space/2dSpace.obj");
-	models[1]=new Model("Game Resources/Models/SpaceShips/Wraith Raider Starship/Wraith Raider Starship.obj");
 
+	models[1]=new Model("Game Resources/Models/SpaceShips/MRX22 Recon Flyer/ModifiedReconFlyer.obj");
+	models[1]->setRigidBody(physicsSystem->addBox(15,5,5,5,0,0,1.0));
 
 	for (int i = 2; i <=6; i++) {
-		models[i]=new Model("Game Resources/Models/Obstacles/Asteroid/Asteroid.obj");
+		models[i]=new Model("Game Resources/Models/Obstacles/Asteroid/ModifiedAstroid2.obj");
+		models[i]->setRigidBody(physicsSystem->addBox(5,5,5,0,0,0,1.0));
 	}
 
 	for (int i = 7; i <=11; i++) {
-		models[i]=new Model("Game Resources/Models/UFOs/ufo/UFO.obj");
+		models[i]=new Model("Game Resources/Models/UFOs/ufo/ModifiedUfo.obj");
+		models[i]->setRigidBody(physicsSystem->addBox(5,5,5,0,0,0,1.0));
 	}
 
 
@@ -37,7 +35,6 @@ ResourcesSystem::ResourcesSystem()
 
 	models[1]=new Model("Game Resources/Models/SpaceShips/Arc-170/obj 2/Arc170.obj");
 	models[2]=new Model("Game Resources/Models/SpaceShips/CombatShip/CombatShip.obj");
-	models[3]=new Model("Game Resources/Models/SpaceShips/MRX22 Recon Flyer/MRX22 Recon Flyer.obj");
 	models[7]=new Model("Game Resources/Models/SpaceShips/X-17 Viper/X-17 Viper flying.obj");
 	models[8]=new Model("Game Resources/Models/UFOs/Flying Disk/flying Disk flying.obj");
 	models[13]=new Model("Game Resources/Models/Others/Moon/moon.obj");
@@ -55,7 +52,8 @@ ResourcesSystem::~ResourcesSystem()
 	}
 
 	delete models;
-	delete shader;
+	delete ModelShader;
+	delete lightingShader;
 }
 
 

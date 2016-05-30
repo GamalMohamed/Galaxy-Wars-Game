@@ -1,8 +1,6 @@
 #include "Scene.h"
 
 
-/*static float Asteroids[6]={-50.f,-75.f,-100.f,-125.f,-150.f};
-static float UFOs[6]={400.f,550.f,700.f,850.f,1000.f};*/
 Scene::Scene()
 {
 	this->player=new Player();
@@ -10,21 +8,21 @@ Scene::Scene()
 	EnemiesNo=10;
 	this->Enemies=new Enemy*[EnemiesNo];
 
-	float Initials[2]={-50.f,400.f};
-	float Displacements[2]={-25.f,150.f};
+	float YInitials[2]={40.f,50.f};
+	float Displacements[2]={125.f,25.f};
 	for(int i=0;i<EnemiesNo;i++)
 	{
 		if(i<5)
 		{
 			this->Enemies[i]=new Enemy("Asteroid");
-			this->Enemies[i]->setInitialPosition(Initials[0]);
-			Initials[0]+= Displacements[0];
+			this->Enemies[i]->setInitialYPosition(YInitials[0]);
+			YInitials[0]+= Displacements[0];
 		}
 		else
 		{
 			this->Enemies[i]=new Enemy("UFO");
-			this->Enemies[i]->setInitialPosition(Initials[1]);
-			Initials[1]+= Displacements[1];
+			this->Enemies[i]->setInitialYPosition(YInitials[1]);
+			YInitials[1]+= Displacements[1];
 		}
 
 	}

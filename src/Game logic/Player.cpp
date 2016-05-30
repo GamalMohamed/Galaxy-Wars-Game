@@ -7,10 +7,10 @@ Player::Player()
 	this->score=0;
 
 	this->HorizontalMotion=0.f;
-	this->VerticalMotion=850.f;
+	this->VerticalMotion=0.f;
 
-	this->InitialPosition= -200.f;
-	this->velocity=20.0f; //WrathSpeed=CamSpeed*100.f
+	this->InitialYPosition= -0.5f;
+	this->velocity=0.32f; //WrathSpeed=CamSpeed*100.f
 
 
 }

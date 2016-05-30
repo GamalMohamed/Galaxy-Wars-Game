@@ -193,3 +193,11 @@ GLint TextureFromFile(const char* path, string directory)
     SOIL_free_image_data(image);
     return textureID;
 }
+
+btRigidBody* Model::getRigidBody(){
+	return rigidBody;
+}
+
+void Model::setRigidBody(btRigidBody* rigidBody) {
+	this->rigidBody = rigidBody;
+}

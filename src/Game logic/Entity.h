@@ -15,7 +15,7 @@ protected:
 	float velocity;
 	float HorizontalMotion; //X-axis displacement
 	float VerticalMotion;	//Z-axis displacement
-	float InitialPosition; //Initial Z-coordinate of model
+	float InitialYPosition; //Initial Y-coordinate of model
 
 
 public:
@@ -46,8 +46,8 @@ public:
 	float& getVerticalMotion();
 	void setVerticalMotion(float verticalMotion);
 
-	float& getInitialPosition();
-	void setInitialPosition(float initialPosition);
+	float& getInitialYPosition();
+	void setInitialYPosition(float initialPosition);
 
 };
 

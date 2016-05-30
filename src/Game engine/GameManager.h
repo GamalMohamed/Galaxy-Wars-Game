@@ -1,10 +1,3 @@
-/*
- * GameManager.h
- *
- *  Created on: Dec 10, 2015
- *      Author: jimmy
- */
-
 #ifndef GAMEMANAGER_H_
 #define GAMEMANAGER_H_
 
@@ -13,10 +6,12 @@
 #include "CameraSystem.h"
 #include "RenderingSystem.h"
 #include "MovementSystem.h"
+#include "PhysicsSystem.h"
 #include "../Game logic/Scene.h"
 
 class Shader;
 class Scene;
+class PhysicsSystem;
 class RenderingSystem;
 class MovementSystem;
 class ResourcesSystem;
@@ -29,6 +24,7 @@ private:
 	RenderingSystem *renderSystem;
 	ResourcesSystem *resourcesSystem;
 	MovementSystem *movementSystem;
+	PhysicsSystem* physicsSystem;
 	Camera* cameraSystem;
 	Scene* scene;
 

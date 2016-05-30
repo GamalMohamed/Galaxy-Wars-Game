@@ -1,0 +1,8 @@
+*.obj
+*.mtl
+*.jpg
+*.jpeg
+*.png
+*.exe
+*.cproject
+*.project

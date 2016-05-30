@@ -20,6 +20,7 @@ class RenderingSystem
 	//Draws the Background environment
 	void DrawBackground(Scene*,int);
 
+	void ComputeLight(Scene*);
 
 public:
 	RenderingSystem();

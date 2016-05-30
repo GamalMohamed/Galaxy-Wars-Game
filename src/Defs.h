@@ -25,13 +25,14 @@
 #include "assimp/scene.h"
 #include "assimp/postprocess.h"
 #include "bullet/btBulletDynamicsCommon.h"
+#include"bullet/btBulletCollisionCommon.h"
+
 
 const int screenWidth = 1024;
 const int screenHeight = 710;
 const int numOfModels = 100;
 const float PI= 3.141f;
 
-//btRigidBody* ptr=NULL;
 
 /*
 struct Vertex2D{

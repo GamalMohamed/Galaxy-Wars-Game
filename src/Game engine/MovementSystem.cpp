@@ -11,55 +11,120 @@ MovementSystem::~MovementSystem()
 
 }
 
-
-void MovementSystem::PlayerTransformations(Scene* scene)
+static float PlayerPivotX;
+static float PlayerPivotY;
+static float EnemiesPivotX[10];
+static float EnemiesPivotY[10];
+void MovementSystem::SetPivots(Scene* scene)
 {
-	glm::mat4 PlayerModel;
-	PlayerModel = glm::scale(PlayerModel, glm::vec3(0.01f,0.01f, 0.01f));
-	PlayerModel = glm::rotate(PlayerModel,-PI/2.0f, glm::vec3(1.0f,0.0f,0.0f));
-	PlayerModel = glm::translate(PlayerModel, glm::vec3(scene->getPlayer()->getHorizontalMotion(), scene->getPlayer()->getVerticalMotion(), scene->getPlayer()->getInitialPosition()+=scene->getPlayer()->getVelocity()));
-	scene->getPlayer()->getModel()->setModelTransformations(PlayerModel);
+	for(int i=0;i<scene->EnemiesNo;i++){
+		EnemiesPivotX[i]=scene->Enemies[i]->getHorizontalMotion();
+		EnemiesPivotY[i]=scene->Enemies[i]->getInitialYPosition();
+	}
 
-	MovePlayer(scene->getPlayer()->getHorizontalMotion(),scene->getPlayer()->getVerticalMotion());
+	PlayerPivotX=scene->getPlayer()->getHorizontalMotion();
+	PlayerPivotY=scene->getPlayer()->getInitialYPosition();
+}
 
+bool MovementSystem::CheckCollision(Scene* scene)
+{
+	float playerTopleftX=PlayerPivotX-0.3;
+	float playerTopRightX=PlayerPivotX+0.3;
+	float playerTopY=PlayerPivotY+0.3;
+
+	for(int i=0;i<scene->EnemiesNo;i++)
+	{
+		float EnemyBottomleftX=EnemiesPivotX[i]-0.3;
+		float EnemyBottomRightX=EnemiesPivotX[i]+0.3;
+		float EnemyBottomY=EnemiesPivotY[i]-0.3;
+
+		if(playerTopY>=EnemyBottomY)
+		{
+			if(
+				(EnemyBottomleftX>=playerTopleftX && EnemyBottomleftX<=playerTopRightX )
+				 ||
+				(EnemyBottomRightX>=playerTopleftX && EnemyBottomRightX<=playerTopRightX)
+			  )
+			  {
+				std::cout<<"Collision with enemy "<<i<<'\n';
+				return true;
+			  }
+
+		}
+
+		/*if(playerTopY>=EnemiesPivotY[i])
+		{
+			if(playerTopleftX<=EnemiesPivotX[i] && playerTopRightX>=EnemiesPivotX[i])
+			{
+				collision=true;
+				std::cout<<"Collision with enemy "<<i<<'\n';
+				return true;
+			}
+		}*/
+	}
+
+	return false;
 }
 
 void MovementSystem::MovePlayer(float &horizontal, float &vertical)
 {
 	if(glfwGetKey( GLFW_KEY_RIGHT ) == GLFW_PRESS){
-		horizontal+=7.5f;
+		horizontal+=2.f;
 	}
 
 	if(glfwGetKey( GLFW_KEY_LEFT ) == GLFW_PRESS){
-		horizontal-=7.5f;
+		horizontal-=2.f;
 	}
 
 	if(glfwGetKey( GLFW_KEY_UP ) == GLFW_PRESS){
-		vertical+=7.5f;
+		vertical+=2.f;
 	}
 
 	if(glfwGetKey( GLFW_KEY_DOWN) == GLFW_PRESS){
-		vertical-=7.5f;
+		vertical-=2.f;
 	}
+
+}
+void MovementSystem::PlayerTransformations(Scene* scene)
+{
+	SetPivots(scene);
+
+	glm::mat4 PlayerModel;
+	PlayerModel = glm::scale(PlayerModel, glm::vec3(0.15f,0.15f, 0.15f));
+
+	if(CheckCollision(scene))
+	{
+		PlayerModel = glm::translate(PlayerModel, glm::vec3(scene->getPlayer()->getHorizontalMotion(),scene->getPlayer()->getInitialYPosition(),scene->getPlayer()->getVerticalMotion()));
+	}
+	else
+	{
+		PlayerModel = glm::translate(PlayerModel, glm::vec3(scene->getPlayer()->getHorizontalMotion(),scene->getPlayer()->getInitialYPosition()+=scene->getPlayer()->getVelocity(),scene->getPlayer()->getVerticalMotion()));
+		//PlayerModel = glm::translate(PlayerModel, glm::vec3(scene->getPlayer()->getHorizontalMotion(),scene->getPlayer()->getInitialYPosition(),scene->getPlayer()->getVerticalMotion()));
+	}
+
+	scene->getPlayer()->getModel()->setModelTransformations(PlayerModel);
+
+	MovePlayer(scene->getPlayer()->getHorizontalMotion(),scene->getPlayer()->getInitialYPosition());
+
 }
 
 void MovementSystem::EnemiesTransformations(Scene* scene)
 {
+	SetPivots(scene);
+
 	for (int i = 0; i <5; i++)
 	{
 		glm::mat4 AsteroidModel;
-		AsteroidModel = glm::scale(AsteroidModel, glm::vec3(0.01f,0.01f, 0.01f));
-		AsteroidModel=glm::rotate(AsteroidModel,PI/2.f, glm::vec3(1.0f,0.0f,0.0f));
-		AsteroidModel = glm::translate(AsteroidModel, glm::vec3(scene->Enemies[i]->getHorizontalMotion(),scene->Enemies[i]->getVerticalMotion(),scene->Enemies[i]->getInitialPosition()+= scene->Enemies[i]->getVelocity()));
+		AsteroidModel = glm::scale(AsteroidModel, glm::vec3(0.2f,0.2f, 0.2f));
+		AsteroidModel = glm::translate(AsteroidModel, glm::vec3(scene->Enemies[i]->getHorizontalMotion(),scene->Enemies[i]->getInitialYPosition()-= scene->Enemies[i]->getVelocity(),scene->Enemies[i]->getVerticalMotion()));
 		scene->Enemies[i]->getModel()->setModelTransformations(AsteroidModel);
 	}
 
 	for (int i = 5; i <= 9; i++)
 	{
 		glm::mat4 UFOModel;
-		UFOModel = glm::scale(UFOModel, glm::vec3(0.002f,0.002f, 0.002f));
-		UFOModel=glm::rotate(UFOModel,-PI/2.f, glm::vec3(1.0f,0.0f,0.0f));
-		UFOModel = glm::translate(UFOModel, glm::vec3(scene->Enemies[i]->getHorizontalMotion(),scene->Enemies[i]->getVerticalMotion(),scene->Enemies[i]->getInitialPosition()+= scene->Enemies[i]->getVelocity()));
+		UFOModel = glm::scale(UFOModel, glm::vec3(0.2f,0.2f, 0.2f));
+		UFOModel = glm::translate(UFOModel, glm::vec3(scene->Enemies[i]->getHorizontalMotion(),scene->Enemies[i]->getInitialYPosition()-= scene->Enemies[i]->getVelocity(),scene->Enemies[i]->getVerticalMotion()));
 		scene->Enemies[i]->getModel()->setModelTransformations(UFOModel);
 	}
 
@@ -104,4 +169,5 @@ void MovementSystem::ModelTransformations(Scene* scene)
 	PlayerTransformations(scene);
 
 	EnemiesTransformations(scene);
+
 }

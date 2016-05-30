@@ -1,10 +1,3 @@
-/*
- * GameManager.cpp
- *
- *  Created on: Dec 10, 2015
- *      Author: jimmy
- */
-
 #include "GameManager.h"
 
 #define Updates_Per_Second 60.0f
@@ -14,14 +7,11 @@ GameManager::GameManager(bool running)
 	this->running=running;
 
 	this->renderSystem=new RenderingSystem();
-	this->resourcesSystem=new ResourcesSystem();
-
-	this->cameraSystem=new Camera(glm::vec3(0.0f, 0.0f, 0.0f));
-
-	this->scene=new Scene();
+	this->physicsSystem=new PhysicsSystem();
+	this->resourcesSystem=new ResourcesSystem(this->physicsSystem);
 	this->movementSystem=new MovementSystem();
-
-
+	this->scene=new Scene();
+	this->cameraSystem=new Camera(glm::vec3(0.0f, 0.0f,5.0f));
 }
 
 
@@ -48,8 +38,9 @@ void GameManager::runGameLoop()
 
 		this->movementSystem->ModelTransformations(this->scene);
 
-		this->cameraSystem->updatePositionY(0.2f);
+		this->cameraSystem->updatePositionY(0.048f);
 
+		this->physicsSystem->step();
 
 		this->renderSystem->Render(this->scene);
 

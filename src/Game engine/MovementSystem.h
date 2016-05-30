@@ -11,6 +11,9 @@ private:
 	void MovePlayer(float&,float&);
 	void EnemiesTransformations(Scene*);
 
+	void SetPivots(Scene*);
+	bool CheckCollision(Scene*);
+
 public:
 	MovementSystem();
 	~MovementSystem();

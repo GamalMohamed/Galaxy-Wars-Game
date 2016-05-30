@@ -4,6 +4,7 @@
 #include"../Defs.h"
 #include "../Game loaders/model.h"
 
+class PhysicsSystem;
 
 class ResourcesSystem
 {
@@ -11,10 +12,11 @@ class ResourcesSystem
 	friend class RenderingSystem;
 	friend class MovementSystem;
 	Model** models;
-	Shader* shader;
+	Shader* ModelShader;
+	Shader* lightingShader;
 
 public:
-	ResourcesSystem();
+	ResourcesSystem(PhysicsSystem* physicsSystem);
 	~ResourcesSystem();
 
 
